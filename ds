@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo de Adivinhação</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #result {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #4CAF50;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #39843d;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Jogo de Adivinhação</h1>
+
+<p>Eu escolhi um número entre 1 e 10. Tente adivinhar!</p>
+
+<label for="palpite">Digite seu palpite (entre 1 e 10): </label>
+<input type="number" id="palpite" min="1" max="10">
+<button onclick="adivinharNumero()">Adivinhar</button>
+<button onclick="reiniciarJogo()">Reiniciar</button>
+
+<p id="feedback"></p>
+<p id="result"></p>
+<p id="tentativas"></p>
+
+<script>
+    // Gera um número aleatório entre 1 e 10
+    let numeroAleatorio = gerarNumeroAleatorio();
+
+    // Inicializa o número de tentativas
+    let tentativas = 0;
+
+    function gerarNumeroAleatorio() {
+        return Math.floor(Math.random() * 10) + 1;
+    }
+
+    function adivinharNumero() {
+        // Obtém o valor inserido pelo jogador
+        const palpite = document.getElementById("palpite").value;
+        const palpiteNumero = parseInt(palpite);
+
+        // Incrementa o número de tentativas
+        tentativas++;
+
+        // Verifica se o palpite está correto
+        if (palpiteNumero === numeroAleatorio) {
+            document.getElementById('feedback').innerText = `Parabéns! Você acertou em ${tentativas} tentativas.`;
+            document.getElementById('result').innerText = `O número era ${numeroAleatorio}.`;
+            document.getElementById('palpite').disabled = true;
+        } else {
+            document.getElementById('feedback').innerText = `Tente novamente. Dica: ${palpiteNumero > numeroAleatorio ? 'Tente um número menor.' : 'Tente um número maior.'}`;
+        }
+
+        document.getElementById('tentativas').innerText = `Tentativas: ${tentativas}`;
+    }
+
+    function reiniciarJogo() {
+        // Reinicia o jogo
+        numeroAleatorio = gerarNumeroAleatorio();
+        tentativas = 0;
+        document.getElementById('palpite').value = "";
+        document.getElementById('feedback').innerText = "";
+        document.getElementById('result').innerText = "";
+        document.getElementById('tentativas').innerText = "";
+        document.getElementById('palpite').disabled = false;
+    }
+</script>
+
+</body>
+</html>
